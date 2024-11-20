@@ -1,0 +1,4 @@
+tmp/
+rekryenv/
+*.db
+**/__pycache__
