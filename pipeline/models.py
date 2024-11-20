@@ -4,9 +4,10 @@ from sqlalchemy.ext.declarative import declarative_base
 # Define the base model class
 Base = declarative_base()
 
+
 # Define the model
 class VantaaOpenApplications(Base):
-    __tablename__ = 'vantaa_open_applications'
+    __tablename__ = "vantaa_open_applications"
     id = Column(Integer, primary_key=True, autoincrement=True)
     field = Column(String, nullable=False)
     job_title = Column(String, nullable=False)
