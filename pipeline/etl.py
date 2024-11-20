@@ -88,7 +88,3 @@ def run_etl(conn_str: str):
     loader(df=df)
 
     print("Data loaded to database succesfully")
-
-
-if __name__ == "__main__":
-    run_etl()
