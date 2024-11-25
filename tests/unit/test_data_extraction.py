@@ -13,19 +13,32 @@ def test_extract_success(mock_success_response, mock_data):
 
     # Expected columns that should be present in the data
     expected_columns = [
-        "id", "organisaatio", "ammattiala", "tyoavain", "osoite", 
-        "haku_paattyy_pvm", "tyotehtava", "x", "y", "linkki"
+        "id",
+        "organisaatio",
+        "ammattiala",
+        "tyoavain",
+        "osoite",
+        "haku_paattyy_pvm",
+        "tyotehtava",
+        "x",
+        "y",
+        "linkki",
     ]
 
     # Assert that the expected columns exist in the dataframe
     for col in expected_columns:
-        assert col in extractor_result.columns, f"Column '{col}' is missing in the DataFrame."
+        assert (
+            col in extractor_result.columns
+        ), f"Column '{col}' is missing in the DataFrame."
 
     # Assert the data is of correct type and structure
     assert isinstance(extractor_result, pd.DataFrame), "The result is not a DataFrame."
     assert len(extractor_result) == 2, "Expected 2 rows of data."
-    assert extractor_result["organisaatio"].iloc[0] == "Kasvatus ja oppiminen, Varhaiskasvatus"
-    assert extractor_result["haku_paattyy_pvm"].iloc[1] == "2024-12-09"
+    assert (
+        extractor_result.loc[0, "organisaatio"]
+        == "Kasvatus ja oppiminen, Varhaiskasvatus"
+    )
+    assert extractor_result.loc[1, "haku_paattyy_pvm"] == "2024-12-09"
 
 
 def test_extract_no_data(mock_empty_response):
@@ -42,7 +55,7 @@ def test_extract_no_data(mock_empty_response):
 
 @pytest.mark.parametrize(
     "status_code, error_message",
-    [(500, "500 Server Error"), (404, "404 Not Found"), (403, "403 Forbidden")]
+    [(500, "500 Server Error"), (404, "404 Not Found"), (403, "403 Forbidden")],
 )
 def test_extract_api_error(mock_api_error, status_code, error_message):
     """

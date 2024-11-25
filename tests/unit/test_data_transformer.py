@@ -10,7 +10,9 @@ def test_data_rename_columns(sample_data_with_original_fields):
     """
     transformer = SimpleTransformer()
 
-    data_with_renamed_columns = transformer._rename_columns(sample_data_with_original_fields)
+    data_with_renamed_columns = transformer._rename_columns(
+        sample_data_with_original_fields
+    )
 
     expected_columns = [
         "id",
@@ -21,7 +23,7 @@ def test_data_rename_columns(sample_data_with_original_fields):
         "application_end_date",
         "longitude_wgs84",
         "latitude_wgs84",
-        "link"
+        "link",
     ]
 
     assert list(data_with_renamed_columns.columns) == expected_columns
@@ -33,13 +35,21 @@ def test_data_transform_dates(sample_data_with_original_fields):
     Verifies that the 'application_end_date' column is correctly transformed to 'date' type.
     """
     transformer = SimpleTransformer()
-    data_with_renamed_columns = transformer._rename_columns(sample_data_with_original_fields)
-    data_with_transformed_dates = transformer._transform_dates(data_with_renamed_columns)
+    data_with_renamed_columns = transformer._rename_columns(
+        sample_data_with_original_fields
+    )
+    data_with_transformed_dates = transformer._transform_dates(
+        data_with_renamed_columns
+    )
 
     assert isinstance(data_with_transformed_dates.loc[0, "application_end_date"], date)
-    assert data_with_transformed_dates.loc[0, "application_end_date"] == date(2024, 12, 9)
+    assert data_with_transformed_dates.loc[0, "application_end_date"] == date(
+        2024, 12, 9
+    )
     assert isinstance(data_with_transformed_dates.loc[1, "application_end_date"], date)
-    assert data_with_transformed_dates.loc[1, "application_end_date"] == date(2024, 12, 5)
+    assert data_with_transformed_dates.loc[1, "application_end_date"] == date(
+        2024, 12, 5
+    )
 
 
 def test_missing_date(sample_data_with_original_fields):
@@ -50,8 +60,12 @@ def test_missing_date(sample_data_with_original_fields):
     sample_data_with_original_fields.loc[0, "haku_paattyy_pvm"] = None
     transformer = SimpleTransformer()
 
-    data_with_renamed_columns = transformer._rename_columns(sample_data_with_original_fields)
-    data_with_transformed_dates = transformer._transform_dates(data_with_renamed_columns)
+    data_with_renamed_columns = transformer._rename_columns(
+        sample_data_with_original_fields
+    )
+    data_with_transformed_dates = transformer._transform_dates(
+        data_with_renamed_columns
+    )
 
     assert data_with_transformed_dates.loc[0, "application_end_date"] is None
 
@@ -73,7 +87,7 @@ def test_empty_dataframe():
             "haku_paattyy_pvm",
             "x",
             "y",
-            "linkki"
+            "linkki",
         ]
     )
     transformed_empty_data = transformer.transform(empty_df)
@@ -98,7 +112,7 @@ def test_transformer_integration(sample_data_with_original_fields):
         "application_end_date",
         "longitude_wgs84",
         "latitude_wgs84",
-        "link"
+        "link",
     ]
 
     assert isinstance(transformed_data.loc[0, "application_end_date"], date)

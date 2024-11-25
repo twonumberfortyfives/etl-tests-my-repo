@@ -1,52 +1,26 @@
-import shutil
-import sqlite3
-import subprocess
-import unittest
-import os
+from sqlalchemy import text
+from sqlalchemy.orm import sessionmaker
 
-from tests.integration.const import DB_FOLDER, DB_PATH
+from pipeline.const import TABLE_NAME
+from tests.integration.const import BaseETLTest
 
 
-class TestEndToEnd(unittest.TestCase):
-    def setUp(self):
-        if os.path.exists(DB_FOLDER):
-            shutil.rmtree(DB_FOLDER)
-
-    def tearDown(self):
-        if os.path.exists(DB_FOLDER):
-            shutil.rmtree(DB_FOLDER)
-
-    def test_full_pipeline(self):
+class TestEndToEnd(BaseETLTest):
+    def test_full_pipeline(self) -> None:
         """E2E testing full process: reset → init → etl"""
         # Reset
-        result = subprocess.run(
-            ["python", "main.py", "--method", "reset"],
-            capture_output=True,
-            text=True,
-        )
-        self.assertEqual(result.returncode, 0, f"Reset failed: {result.stderr}")
+        self.execute_and_validate(method="reset", check_db_exists=False)
 
         # Init
-        result = subprocess.run(
-            ["python", "main.py", "--method", "init"],
-            capture_output=True,
-            text=True,
-        )
-        self.assertEqual(result.returncode, 0, f"Init failed: {result.stderr}")
-        self.assertTrue(os.path.exists(DB_PATH), "Database was not created.")
+        self.execute_and_validate(method="init")
 
         # ETL
-        result = subprocess.run(
-            ["python", "main.py", "--method", "etl"],
-            capture_output=True,
-            text=True,
-        )
-        self.assertEqual(result.returncode, 0, f"ETL failed: {result.stderr}")
-        self.assertIn("Data loaded to database succesfully", result.stdout)
+        self.execute_and_validate(method="etl")
 
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM vantaa_open_applications")
-        count = cursor.fetchone()[0]
-        conn.close()
-        self.assertGreater(count, 0, "ETL did not load data into the database.")
+        engine, inspector = self.get_engine_and_inspector()
+
+        Session = sessionmaker(bind=engine)
+        with Session() as session:
+            result = session.execute(text(f"SELECT COUNT(*) FROM {TABLE_NAME}"))
+            row_count = result.scalar()
+            self.assertGreater(row_count, 0, "ETL did not load data into the database.")

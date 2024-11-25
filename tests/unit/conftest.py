@@ -19,7 +19,7 @@ def mock_data():
             "haku_paattyy_pvm": "2024-12-05",
             "x": 25.036196681892456,
             "y": 60.28870816893006,
-            "linkki": "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839"
+            "linkki": "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
         },
         {
             "id": 15840,
@@ -31,7 +31,7 @@ def mock_data():
             "haku_paattyy_pvm": "2024-12-09",
             "x": 25.041968610843043,
             "y": 60.29238682868207,
-            "linkki": "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15840"
+            "linkki": "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15840",
         },
     ]
 
@@ -44,68 +44,66 @@ def mock_requests():
 
 @pytest.fixture
 def sample_data():
-    return pd.DataFrame({
-        "id": [1, 2],
-        "field": [
-            "Hallinto-, esimies- ja asiantuntijatyö",
-            "Varhaiskasvatuksen opettaja ja sosionomi"
-        ],
-        "job_title": [
-            "Varhaiskasvatuspäällikkö",
-            "Varhaiskasvatuksen kehittäjäsosionomi, Seljapolun päiväkoti"
-        ],
-        "job_key": [
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825"
-        ],
-        "address": [
-            "Silkkitehtaantie 5C, 01300 Vantaa",
-            "Seljapolku 11 01360 Vantaa"
-        ],
-        "application_end_date": [
-            date(2024, 12, 9),
-            date(2024, 12, 5)
-        ],
-        "longitude_wgs84": [25.036196681892456, 25.056850631880877],
-        "latitude_wgs84": [60.28870816893006, 60.32318383805195],
-        "link": [
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825"
-        ]
-    })
+    return pd.DataFrame(
+        {
+            "id": [1, 2],
+            "field": [
+                "Hallinto-, esimies- ja asiantuntijatyö",
+                "Varhaiskasvatuksen opettaja ja sosionomi",
+            ],
+            "job_title": [
+                "Varhaiskasvatuspäällikkö",
+                "Varhaiskasvatuksen kehittäjäsosionomi, Seljapolun päiväkoti",
+            ],
+            "job_key": [
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825",
+            ],
+            "address": [
+                "Silkkitehtaantie 5C, 01300 Vantaa",
+                "Seljapolku 11 01360 Vantaa",
+            ],
+            "application_end_date": [date(2024, 12, 9), date(2024, 12, 5)],
+            "longitude_wgs84": [25.036196681892456, 25.056850631880877],
+            "latitude_wgs84": [60.28870816893006, 60.32318383805195],
+            "link": [
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825",
+            ],
+        }
+    )
 
 
 @pytest.fixture
 def sample_data_with_original_fields():
-    return pd.DataFrame({
-        "id": [1, 2],
-        "ammattiala": [
-            "Hallinto-, esimies- ja asiantuntijatyö",
-            "Varhaiskasvatuksen opettaja ja sosionomi"
-        ],
-        "tyotehtava": [
-            "Varhaiskasvatuspäällikkö",
-            "Varhaiskasvatuksen kehittäjäsosionomi, Seljapolun päiväkoti"
-        ],
-        "tyoavain": [
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825"
-        ],
-        "osoite": [
-            "Silkkitehtaantie 5C, 01300 Vantaa",
-            "Seljapolku 11 01360 Vantaa"
-        ],
-        "haku_paattyy_pvm": [
-            "2024-12-09",
-            "2024-12-05"
-        ],
-        "x": [25.036196681892456, 25.056850631880877],
-        "y": [60.28870816893006, 60.32318383805195],
-        "linkki": [
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
-            "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825"
-        ]
-    })
+    return pd.DataFrame(
+        {
+            "id": [1, 2],
+            "ammattiala": [
+                "Hallinto-, esimies- ja asiantuntijatyö",
+                "Varhaiskasvatuksen opettaja ja sosionomi",
+            ],
+            "tyotehtava": [
+                "Varhaiskasvatuspäällikkö",
+                "Varhaiskasvatuksen kehittäjäsosionomi, Seljapolun päiväkoti",
+            ],
+            "tyoavain": [
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825",
+            ],
+            "osoite": [
+                "Silkkitehtaantie 5C, 01300 Vantaa",
+                "Seljapolku 11 01360 Vantaa",
+            ],
+            "haku_paattyy_pvm": ["2024-12-09", "2024-12-05"],
+            "x": [25.036196681892456, 25.056850631880877],
+            "y": [60.28870816893006, 60.32318383805195],
+            "linkki": [
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15839",
+                "https://vantaa.rekrytointi.com/paikat/?o=A_RJ&jgid=1&jid=15825",
+            ],
+        }
+    )
 
 
 @pytest.fixture
@@ -137,5 +135,7 @@ def mock_api_error(mock_requests, status_code, error_message):
     """
     mock_response = mock_requests.return_value
     mock_response.status_code = status_code
-    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError(error_message)
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError(
+        error_message
+    )
     return mock_response
