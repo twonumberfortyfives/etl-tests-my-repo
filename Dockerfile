@@ -1,12 +1,9 @@
 FROM python:3.11-slim
 
-ENV PYTHONENV="/etl"
+WORKDIR /app
 
-RUN apt-get update && \
-    apt-get install -y \
-    sqlite3
-
-WORKDIR /etl
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD ["python", "-m", "unittest"]

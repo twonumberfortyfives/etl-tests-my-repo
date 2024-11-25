@@ -1,4 +1,6 @@
 import argparse
+import sys
+
 from pipeline import initialize_database, run_etl, reset_enviroment
 from typing import Literal
 import os
