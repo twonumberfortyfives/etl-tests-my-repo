@@ -9,7 +9,11 @@ I decided to run the tests via Docker because I encountered several issues:
 - incompatibilities between versions,
 - and the desire to simplify the launch process for you.
 
-Now you can run all the tests with one command in Docker. This makes the verification process stable and independent of your local environment.
+Now, you can run all tests with a single command:  
+```bash
+docker-compose up --build
+
+This makes the verification process stable and independent of your local environment.
 In the project, I used both unittest and pytest to demonstrate my ability to work with different testing frameworks. I chose unittest for classic structured tests, and pytest for checking in a more modern style, given its flexibility and wide capabilities.
 
 ## Thank you for your attention! 😊
