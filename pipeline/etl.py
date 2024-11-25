@@ -1,10 +1,57 @@
 import pandas as pd
 import requests
+from pandera import Column, Check
 from sqlalchemy import create_engine, orm
 from datetime import date
+import pandera as pa
+
 
 from .const import API_URL
 from .models import VantaaOpenApplications
+
+
+class SimpleValidator:
+    def __init__(self):
+        self.bounding_box = {  # ensuring the location in Vantaa city
+            "min_lat": 60.20,
+            "max_lat": 60.40,
+            "min_lon": 24.80,
+            "max_lon": 25.20,
+        }
+        self.schema = pa.DataFrameSchema(
+            {
+                "id": Column(int, checks=Check.gt(0), nullable=False),
+                "organisaatio": Column(str, nullable=False),
+                "ammattiala": Column(str, nullable=False),
+                "tyotehtava": Column(str, nullable=False),
+                "tyoavain": Column(str, nullable=False),
+                "osoite": Column(str, nullable=False),
+                "haku_paattyy_pvm": Column(str, nullable=True),
+                "x": Column(float, checks=self._is_within_bounding_box_check("longitude"), nullable=True),
+                "y": Column(float, checks=self._is_within_bounding_box_check("latitude"), nullable=True),
+                "linkki": Column(str, checks=Check.str_contains("http"), nullable=False),
+            }
+        )
+
+    def _is_within_bounding_box_check(self, coord_type):
+        if coord_type == "longitude":
+            return Check(
+                lambda x: self.bounding_box["min_lon"] <= x <= self.bounding_box["max_lon"],
+                element_wise=True
+            )
+        elif coord_type == "latitude":
+            return Check(
+                lambda x: self.bounding_box["min_lat"] <= x <= self.bounding_box["max_lat"],
+                element_wise=True
+            )
+        else:
+            raise ValueError("Invalid coordinate type")
+
+    def validate(self, df: pd.DataFrame) -> pd.DataFrame:
+        return self.schema.validate(df)
+
+    def __call__(self, df: pd.DataFrame) -> pd.DataFrame:
+        return self.validate(df)
 
 
 class SimpleExtractor:
@@ -78,12 +125,14 @@ class SimpleLoader:
 
 def run_etl(conn_str: str):
     # Initialise ETL parts
+    validator = SimpleValidator()
     extractor = SimpleExtractor()
     transformer = SimpleTransformer()
     loader = SimpleLoader(conn_str=conn_str)
 
     # Run parts
     df = extractor()
+    df = validator(df=df)
     df = transformer(df=df)
     loader(df=df)
 
