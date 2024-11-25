@@ -18,5 +18,8 @@ docker-compose up --build
 This makes the verification process stable and independent of your local environment.
 In the project, I used both unittest and pytest to demonstrate my ability to work with different testing frameworks. I chose unittest for classic structured tests, and pytest for checking in a more modern style, given its flexibility and wide capabilities.
 
+## Speeding up the Build Process
+Additionally, I addressed the long build times caused by installing pandas during the container setup. By using precompiled wheels, I was able to speed up the process by 3-4 times 😯 compared to building from source. This significantly improved the overall build efficiency and reduced the setup time.
+
 ## Thank you for your attention! 😊
 I hope you like the result. It was a great task and I tried my best to show my skills. I will be glad to show more of my capabilities in the future!
