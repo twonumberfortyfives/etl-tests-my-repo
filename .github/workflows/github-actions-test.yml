@@ -1,0 +1,51 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Run docker-compose
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "docker-compose.yaml"
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose up --build"
+  
+      - name: Inspect running containers
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "docker-compose.yaml"
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose ps"
+
+      - name: Debug logs
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "docker-compose.yaml"
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose logs"
+
+      - name: Cleanup Docker
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "docker-compose.yaml"
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose down --volumes --remove-orphans"
