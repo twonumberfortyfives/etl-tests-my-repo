@@ -18,10 +18,8 @@ jobs:
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:
           compose-file: "docker-compose.yaml"
-
-      - name: Verify test results
-        run: |
-          docker-compose up -d
-          docker-compose ps
-          docker-compose logs
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose up --build"
   
