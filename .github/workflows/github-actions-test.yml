@@ -24,10 +24,28 @@ jobs:
           test-command: "docker-compose up --build"
   
       - name: Inspect running containers
-        run: docker-compose ps
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "docker-compose.yaml"
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose ps"
 
       - name: Debug logs
-        run: docker-compose logs
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "docker-compose.yaml"
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose logs"
 
       - name: Cleanup Docker
-        run: docker-compose down --volumes --remove-orphans
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "docker-compose.yaml"
+          up-flags: "--build"
+          down-flags: "--volumes"
+          test-container: "test-container"
+          test-command: "docker-compose down --volumes --remove-orphans"
