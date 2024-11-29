@@ -21,7 +21,7 @@ jobs:
 
       - name: Verify test results
         run: |
-          docker-compose up --build
+          docker-compose up
           docker-compose ps
           docker-compose logs
   
