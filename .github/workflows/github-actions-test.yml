@@ -23,3 +23,11 @@ jobs:
           test-container: "test-container"
           test-command: "docker-compose up --build"
   
+      - name: Inspect running containers
+        run: docker-compose ps
+
+      - name: Debug logs
+        run: docker-compose logs
+
+      - name: Cleanup Docker
+        run: docker-compose down --volumes --remove-orphans
